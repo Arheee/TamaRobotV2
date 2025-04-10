@@ -25,3 +25,13 @@ button {
     font-weight: bold;
     margin-top: 1rem;
 }
+.history {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 2rem;
+    font-size: 0.95rem;
+    color: #555;
+}
+.history li {
+    margin: 0.5rem 0;
+}

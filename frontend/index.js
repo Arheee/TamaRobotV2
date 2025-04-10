@@ -89,3 +89,17 @@ function displayWarning(warningText) {
         warningElement.textContent = "";
     }, 5000);
 }
+
+window.addEventListener("DOMContentLoaded", () => {
+    fetch("http://localhost:3000/interactions")
+        .then(res => res.json())
+        .then(data => {
+            const historyList = document.getElementById("history-list");
+            data.forEach(item => {
+                const li = document.createElement("li");
+                li.textContent = `[${item.type}] ${item.reponse}`;
+                historyList.appendChild(li);
+            });
+        })
+        .catch(err => console.error("❌ Erreur chargement historique :", err));
+});
