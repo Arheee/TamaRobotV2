@@ -1,0 +1,27 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    text-align: center;
+    padding: 2rem;
+}
+.center {
+    margin-top: 2rem;
+}
+.buttons {
+    margin-top: 1rem;
+}
+button {
+    margin: 0.5rem;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+}
+.response {
+    font-size: 1.2rem;
+    margin-top: 1rem;
+}
+.warning {
+    color: red;
+    font-weight: bold;
+    margin-top: 1rem;
+}
