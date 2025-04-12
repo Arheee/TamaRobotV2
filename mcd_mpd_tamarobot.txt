@@ -1,0 +1,25 @@
+
+MCD (Modèle Conceptuel de Données) :
+
+[Utilisateur]
+- id_utilisateur (PK)
+- nom_utilisateur (VARCHAR)
+- mot_de_passe (VARCHAR)
+
+[Tamarobot]
+- id_tama (PK)
+- nom_tama (VARCHAR)
+- fk_utilisateur (FK vers Utilisateur.id_utilisateur)
+
+MPD (Modèle Physique de Données) - MySQL :
+
+Table `utilisateurs`
+- id INT AUTO_INCREMENT PRIMARY KEY
+- nom_utilisateur VARCHAR(100) NOT NULL UNIQUE
+- mot_de_passe VARCHAR(255) NOT NULL
+
+Table `tamarobots`
+- id INT AUTO_INCREMENT PRIMARY KEY
+- nom_tama VARCHAR(100) NOT NULL
+- utilisateur_id INT,
+  FOREIGN KEY (utilisateur_id) REFERENCES utilisateurs(id)
