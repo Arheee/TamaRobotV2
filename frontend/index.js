@@ -90,16 +90,32 @@ function displayWarning(warningText) {
     }, 5000);
 }
 
-window.addEventListener("DOMContentLoaded", () => {
+// Gestion du bouton historique + modal
+const modal = document.getElementById("history-modal");
+const btn = document.getElementById("show-history-btn");
+const span = document.getElementsByClassName("close")[0];
+
+btn.onclick = function () {
     fetch("http://localhost:3000/interactions")
         .then(res => res.json())
         .then(data => {
             const historyList = document.getElementById("history-list");
+            historyList.innerHTML = "";
             data.forEach(item => {
                 const li = document.createElement("li");
                 li.textContent = `[${item.type}] ${item.reponse}`;
                 historyList.appendChild(li);
             });
-        })
-        .catch(err => console.error("❌ Erreur chargement historique :", err));
-});
+            modal.style.display = "block";
+        });
+}
+
+span.onclick = function () {
+    modal.style.display = "none";
+}
+
+window.onclick = function (event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
