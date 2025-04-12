@@ -7,17 +7,53 @@ body {
     text-align: center;
     padding: 2rem;
 }
-
 .arcade-text {
-    font-size: 1.2rem;
+    font-size: 1rem;
     letter-spacing: 1px;
-    color: #ffffff;
+    color: #00ffcc;
 }
-
-.center {
+.auth-form {
     margin-top: 2rem;
 }
-
+.auth-form input {
+    display: block;
+    margin: 1rem auto;
+    padding: 0.5rem;
+    width: 250px;
+    font-family: inherit;
+    background-color: #111;
+    border: 2px solid #00ffcc;
+    color: white;
+}
+.auth-form button {
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+    background-color: #222;
+    color: #00ffcc;
+    border: 2px solid #00ffcc;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.auth-form button:hover {
+    background-color: #00ffcc;
+    color: black;
+}
+.auth-form a {
+    color: #00ffcc;
+    text-decoration: none;
+    font-size: 0.7rem;
+}
+.auth-form a:hover {
+    text-decoration: underline;
+}
+.message {
+    margin-top: 1rem;
+    font-size: 0.8rem;
+    color: #00ffcc;
+}
+.hidden {
+    display: none;
+}
 .buttons {
     margin-top: 1rem;
 }
@@ -26,16 +62,11 @@ button {
     padding: 0.5rem 1rem;
     font-size: 0.9rem;
     background-color: #222;
-    color: #ffffff;
-    border: 2px solid #fcfffe;
+    color: #00ffcc;
+    border: 2px solid #00ffcc;
     border-radius: 5px;
     cursor: pointer;
 }
-button:hover {
-    background-color: #00ffcc;
-    color: black;
-}
-
 .response {
     font-size: 1.2rem;
     margin-top: 1rem;
@@ -44,60 +75,4 @@ button:hover {
     color: red;
     font-weight: bold;
     margin-top: 1rem;
-}
-
-.arcade-line {
-    margin-top: 3rem;
-    border: 2px dashed #ffffff;
-}
-
-.history-button {
-    margin-top: 1rem;
-}
-
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1;
-    padding-top: 100px;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0,0,0,0.8);
-}
-
-.modal-content {
-    background-color: #111;
-    margin: auto;
-    padding: 20px;
-    border: 3px solid #ffffff;
-    width: 80%;
-    max-width: 600px;
-    color: white;
-}
-
-.close {
-    color: #fbfffe;
-    float: right;
-    font-size: 1.5rem;
-    font-weight: bold;
-    cursor: pointer;
-}
-.close:hover {
-    color: red;
-}
-
-.history {
-    list-style-type: none;
-    padding: 0;
-    margin-top: 1rem;
-    font-size: 0.8rem;
-    text-align: left;
-}
-.history li {
-    margin: 0.5rem 0;
-    border-bottom: 1px dotted #ffffff;
-    padding-bottom: 0.2rem;
 }

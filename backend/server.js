@@ -9,7 +9,6 @@ const port = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
-// Connexion MongoDB
 mongoose.connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
@@ -19,8 +18,11 @@ mongoose.connect(process.env.MONGODB_URI, {
 // Routes
 const interactionsRoutes = require("./routes/interactions");
 const registerRoutes = require("./routes/register");
+const loginRoutes = require("./routes/login");
+
 app.use("/interactions", interactionsRoutes);
 app.use("/register", registerRoutes);
+app.use("/login", loginRoutes);
 
 app.listen(port, () => {
     console.log(`🚀 Serveur en écoute sur http://localhost:${port}`);
