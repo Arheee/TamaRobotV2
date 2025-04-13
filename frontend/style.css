@@ -76,3 +76,57 @@ button {
     font-weight: bold;
     margin-top: 1rem;
 }
+/* === MODAL POPUP HISTORIQUE === */
+.modal {
+    display: none; /* caché par défaut */
+    position: fixed;
+    z-index: 10;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.85); 
+    font-family: 'Courier New', monospace;
+  }
+  
+  .modal-content {
+    background-color: #111;
+    margin: 10% auto;
+    padding: 20px;
+    border: 2px solid #00ffcc;
+    width: 60%;
+    color: #00ffcc;
+    font-size: 0.8rem; 
+    border-radius: 10px;
+  }
+  
+  .modal-content h3 {
+    font-size: 1rem;
+    text-align: center;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+  
+  .modal-content ul {
+    list-style: none;
+    padding-left: 0;
+  }
+  
+  .modal-content li {
+    margin-bottom: 6px;
+  }
+  
+  .close {
+    color: #00ffcc;
+    float: right;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  /* Classe JS pour afficher le modal */
+  .modal:not(.hidden) {
+    display: block;
+  }

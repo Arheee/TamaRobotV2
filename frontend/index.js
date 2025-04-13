@@ -151,3 +151,23 @@ function displayWarning(warningText) {
         warningElement.textContent = "";
     }, 5000);
 }
+
+document.getElementById("show-history-btn").addEventListener("click", async () => {
+    const res = await fetch("http://localhost:3000/interactions");
+    const data = await res.json();
+  
+    const historyList = document.getElementById("history-list");
+    historyList.innerHTML = "";
+  
+    data.forEach(entry => {
+      const li = document.createElement("li");
+      li.textContent = `${entry.type} → ${entry.reponse}`;
+      historyList.appendChild(li);
+    });
+  
+    document.getElementById("history-modal").classList.remove("hidden");
+  });
+  
+  document.getElementById("close-modal").addEventListener("click", () => {
+    document.getElementById("history-modal").classList.add("hidden");
+  });
