@@ -1,10 +1,12 @@
 const express = require("express");
 const router = express.Router();
+//Modèle Mongoose
 const Interaction = require("../models/Interaction");
 
 router.post("/", async (req, res) => {
     try {
         const interaction = new Interaction(req.body);
+        //ici j'enregistre le doc dans la collection mongoDB
         const saved = await interaction.save();
         res.status(201).json(saved);
     } catch (err) {

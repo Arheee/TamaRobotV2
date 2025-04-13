@@ -12,8 +12,8 @@ app.use(express.json());
 mongoose.connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
-}).then(() => console.log("✅ Connecté à MongoDB"))
-  .catch(err => console.error("❌ Erreur MongoDB :", err));
+}).then(() => console.log(" Connecté à MongoDB"))
+  .catch(err => console.error(" Erreur MongoDB :", err));
 
 // Routes
 const interactionsRoutes = require("./routes/interactions");
@@ -25,5 +25,5 @@ app.use("/register", registerRoutes);
 app.use("/login", loginRoutes);
 
 app.listen(port, () => {
-    console.log(`🚀 Serveur en écoute sur http://localhost:${port}`);
+    console.log(`Serveur en écoute sur http://localhost:${port}`);
 });

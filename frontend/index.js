@@ -45,7 +45,7 @@ document.getElementById("registerBtn").addEventListener("click", () => {
     const message = document.getElementById("registerMessage");
 
     if (!username || !password || !robotname) {
-        message.textContent = "⚠️ Tous les champs sont requis.";
+        message.textContent = "Tous les champs sont requis.";
         return;
     }
 
@@ -140,8 +140,8 @@ function displayResponse(response, isRed = false, type = "") {
             body: JSON.stringify({ type: type, reponse: response })
         })
         .then(res => res.json())
-        .then(data => console.log("✅ Interaction enregistrée :", data))
-        .catch(err => console.error("❌ Erreur enregistrement :", err));
+        .then(data => console.log("Interaction enregistrée :", data))
+        .catch(err => console.error("Erreur enregistrement :", err));
     }
 }
 function displayWarning(warningText) {

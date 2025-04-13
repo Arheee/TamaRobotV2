@@ -45,9 +45,9 @@ TAMAROBOTV2/
 ├── docker-compose.yml      ← Docker config (MongoDB + MySQL + backend)
 ```
 
-Frontend (à part, lancé avec Live Server) :
+Frontend (lancé avec Live Server) :
 ```
-tamarobot-frontend-auth-combo/
+tamarobot-frontend/
 ├── index.html
 ├── style.css
 └── index.js
