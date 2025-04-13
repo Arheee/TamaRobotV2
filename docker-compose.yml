@@ -29,12 +29,12 @@ services:
     image: mysql:8
     environment:
       MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: tamarobot_sql
     ports:
-      - "3306:3306"
+      - "3307:3306"
     volumes:
       - mysql-data:/var/lib/mysql
-      - ./mysql/docker-entrypoint-initdb.d
-
+      - ./mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
 volumes:
   mongo-data:
   mysql-data:
