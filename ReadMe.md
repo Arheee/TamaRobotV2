@@ -24,7 +24,9 @@ docker compose up --build
 ### 2. Lancer le frontend avec Live Server
 - Clic droit sur `index.html` → "Open with Live Server"
 ---
-
+### 3. Connexion avec un compte test 
+- user 'alice', mdp 'azerty123'
+---
 ## 👤 Auteur
 
 Arheee 
