@@ -39,28 +39,22 @@ jobs:
           scan-ref: './backend'
 
   sonar-analysis:
-   runs-on: ubuntu-latest
-   needs: build-test
-   steps:
-     - name: Checkout code
-       uses: actions/checkout@v3
+    runs-on: ubuntu-latest
+    needs: build-test
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-     - name: Install Java
-       uses: actions/setup-java@v3
-       with:
-         distribution: 'temurin'
-         java-version: '17'
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
 
-     - name: Install SonarScanner
-       run: |
-         npm install -g sonar-scanner
-
-     - name: Run SonarQube Scan
-       env:
-         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-       run: |
-         sonar-scanner \
-           -Dsonar.projectKey=TamarobotV2 \
-           -Dsonar.sources=./backend \
-           -Dsonar.host.url=http://185.31.149.99:9000 \
-           -Dsonar.login=${SONAR_TOKEN}
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        with:
+          args: >
+            -Dsonar.projectKey=TamaRobotV2
+            -Dsonar.organization=arheee
+            -Dsonar.sources=./backend

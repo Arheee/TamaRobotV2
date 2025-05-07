@@ -25,5 +25,5 @@ app.use("/register", registerRoutes);
 app.use("/login", loginRoutes);
 app.listen(port, () => {
     console.log(`Serveur en écoute sur http://localhost:${port}`);
-    console.log('test pourrrrrr le nouveau workflow Github Act ');
+    console.log('test pour le nouveau workflow Github Act ');
 });
