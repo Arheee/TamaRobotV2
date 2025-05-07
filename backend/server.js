@@ -23,7 +23,7 @@ const loginRoutes = require("./routes/login");
 app.use("/interactions", interactionsRoutes);
 app.use("/register", registerRoutes);
 app.use("/login", loginRoutes);
-console.log('test pour le nouveau workflow Github Act ');
 app.listen(port, () => {
     console.log(`Serveur en écoute sur http://localhost:${port}`);
+    console.log('test pour le nouveau workflow Github Act ');
 });
