@@ -1,24 +1,69 @@
-name: Lancer les tests Jest 
+name: CI/CD Tamarobot
 
-on: [push]
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
-  test:
+  build-test:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Récupére le code
-      uses: actions/checkout@v3
+      - name: Récupérer le code
+        uses: actions/checkout@v3
 
-    - name: Installer Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '18'
+      - name: Installer Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
 
-    - name: Installer les dépendances
-      run: npm install
-      working-directory: ./backend
+      - name: Installer les dépendances
+        run: npm install
+        working-directory: ./backend
 
-    - name: Lancer les tests Jest
-      run: npm test
-      working-directory: ./backend
+      - name: Lancer les tests Jest
+        run: npm test
+        working-directory: ./backend
+
+  trivy-scan:
+    runs-on: ubuntu-latest
+    needs: build-test
+    steps:
+      - name: Récupérer le code
+        uses: actions/checkout@v3
+
+      - name: Installer Trivy
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          scan-ref: './backend'
+
+  sonar-analysis:
+   runs-on: ubuntu-latest
+   needs: build-test
+   steps:
+     - name: Checkout code
+       uses: actions/checkout@v3
+
+     - name: Install Java
+       uses: actions/setup-java@v3
+       with:
+         distribution: 'temurin'
+         java-version: '17'
+
+     - name: Install SonarScanner
+       run: |
+         npm install -g sonar-scanner
+
+     - name: Run SonarQube Scan
+       env:
+         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+       run: |
+         sonar-scanner \
+           -Dsonar.projectKey=TamarobotV2 \
+           -Dsonar.sources=./backend \
+           -Dsonar.host.url=http://185.31.149.99:9000 \
+           -Dsonar.login=${SONAR_TOKEN}
