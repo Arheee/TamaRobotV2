@@ -25,5 +25,5 @@ app.use("/register", registerRoutes);
 app.use("/login", loginRoutes);
 app.listen(port, () => {
     console.log(`Serveur en écoute sur http://localhost:${port}`);
-    console.log("CI/CD setup OK");
+    console.log("CI/CD test setup OK");
 });
