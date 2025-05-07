@@ -46,5 +46,5 @@ jobs:
       - name: Installer Trivy
         uses: aquasecurity/trivy-action@master
         with:
-          scan-type: 'image'
-          image-ref: 'tamarobot-backend'
+          scan-type: 'fs'
+          scan-ref: './backend'
