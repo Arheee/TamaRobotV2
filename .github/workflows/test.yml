@@ -55,7 +55,7 @@ jobs:
         uses: SonarSource/sonarqube-scan-action@v5.0.0
         with:
           args: >
-            -Dsonar.projectKey=TamaRobotV2
+            -Dsonar.projectKey=Arheee_TamaRobotV2
             -Dsonar.organization=arheee
             -Dsonar.sources=./backend
         env:
