@@ -58,3 +58,5 @@ jobs:
             -Dsonar.projectKey=TamaRobotV2
             -Dsonar.organization=arheee
             -Dsonar.sources=./backend
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
