@@ -11,15 +11,28 @@ router.post("/", async (req, res) => {
 
     try {
         const [rows] = await db.execute(
-            "SELECT u.id, u.nom_utilisateur, t.nom_tama FROM utilisateurs u JOIN tamarobots t ON u.id = t.utilisateur_id WHERE u.nom_utilisateur = ? AND u.mot_de_passe = ?",
+            `SELECT u.id, u.nom_utilisateur, u.derniere_connexion, t.nom_tama 
+             FROM utilisateurs u 
+             JOIN tamarobots t ON u.id = t.utilisateur_id 
+             WHERE u.nom_utilisateur = ? AND u.mot_de_passe = ?`,
             [nom_utilisateur, mot_de_passe]
         );
 
-        if (rows.length === 0) {
-            return res.status(401).json({ error: "Identifiants invalides." });
-        }
+        const utilisateur = rows[0];
+        const dejaConnecte = utilisateur.derniere_connexion !== null;
 
-        res.json({ message: "Connexion réussie", utilisateur: rows[0].nom_utilisateur, tamabot: rows[0].nom_tama });
+        // Mettre à jour la date de dernière connexion
+        await db.execute(
+            "UPDATE utilisateurs SET derniere_connexion = NOW() WHERE id = ?",
+            [utilisateur.id]
+        );
+
+        res.json({
+            message: "Connexion réussie",
+            utilisateur: utilisateur.nom_utilisateur,
+            tamabot: utilisateur.nom_tama,
+            dejaConnecte
+        });
     } catch (err) {
         console.error("Erreur login:", err);
         res.status(500).json({ error: "Erreur serveur" });

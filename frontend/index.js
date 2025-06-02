@@ -25,11 +25,33 @@ document.getElementById("loginBtn").addEventListener("click", () => {
             message.textContent = "❌ " + data.error;
         } else {
             document.getElementById("login-form").style.display = "none";
-            document.getElementById("game-section").classList.remove("hidden");
-            document.getElementById("welcome-message").textContent = `Bienvenue ${data.utilisateur} !`;
-            text = `Ton Tamarobot s'appelle ${data.tamabot}`;
-            index = 0;
-            typeText();
+    document.getElementById("game-section").classList.remove("hidden");
+
+    const dejaConnecte = data.dejaConnecte;
+            setupDropdownToggle();
+
+if (dejaConnecte) {
+  document.getElementById("welcome-message").textContent = "";
+  document.getElementById("welcome-bis").textContent = `💖 Te revoilà ${data.utilisateur}, ${data.tamabot} t’attendait ! 💖`;
+  document.getElementById("top-bar").classList.remove("hidden");
+
+  setTimeout(() => {
+    document.getElementById("welcome-bis").textContent = "";
+    document.getElementById("welcome-message").textContent = `Que faire avec ${data.tamabot} ?`;
+  }, 4000);
+} else {
+  document.getElementById("welcome-message").textContent = `Bienvenue ${data.utilisateur} !`;
+  document.getElementById("top-bar").classList.remove("hidden");
+
+  setTimeout(() => {
+    document.getElementById("welcome-message").textContent = "";
+    document.getElementById("welcome-message").textContent = `Tu as ${data.tamabot}`;
+  }, 4000);
+    }
+
+    text = `Ton Tamarobot s'appelle ${data.tamabot}`;
+    index = 0;
+    typeText();
         }
     })
     .catch(() => {
@@ -171,3 +193,46 @@ document.getElementById("show-history-btn").addEventListener("click", async () =
   document.getElementById("close-modal").addEventListener("click", () => {
     document.getElementById("history-modal").classList.add("hidden");
   });
+
+  //gestion des deux boutons menu et logout
+  const menuBtn = document.getElementById("menuBtn");
+const logoutBtn = document.getElementById("logoutBtn");
+const topBar = document.getElementById("top-bar");
+const welcomeBis = document.getElementById("welcome-bis");
+
+let lastUser = "";
+let lastTama = "";
+
+// Déconnexion
+logoutBtn.addEventListener("click", () => {
+    document.getElementById("game-section").classList.add("hidden");
+    document.getElementById("login-form").style.display = "block";
+    topBar.classList.add("hidden");
+    welcomeBis.textContent = "";
+});
+
+// Retour menu
+menuBtn.addEventListener("click", () => {
+    const textElement = document.getElementById("text");
+    textElement.textContent = "";
+    welcomeBis.textContent = `Te revoilà ${lastUser}, tu as manqué à ${lastTama} ❤️`;
+});
+
+//toggle
+function setupDropdownToggle() {
+  const menuToggle = document.getElementById("menuToggle");
+  const dropdownMenu = document.getElementById("dropdownMenu");
+
+  if (menuToggle && dropdownMenu) {
+    menuToggle.addEventListener("click", (e) => {
+      e.stopPropagation();
+      dropdownMenu.classList.toggle("hidden");
+    });
+
+    document.addEventListener("click", (event) => {
+      if (!menuToggle.contains(event.target) && !dropdownMenu.contains(event.target)) {
+        dropdownMenu.classList.add("hidden");
+      }
+    });
+  }
+}

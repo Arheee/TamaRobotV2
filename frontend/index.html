@@ -8,6 +8,7 @@
 <body>
     <div class="center">
         <h1 class="arcade-text">Tamarobot</h1>
+        <img src="tamalogo.png" alt="Tamarobot" class="robot-img" />
     </div>
 
     <!-- Connexion -->
@@ -33,6 +34,17 @@
 
     <!-- Section jeu -->
     <div id="game-section" class="hidden">
+        <div id="top-bar" class="top-bar">
+  <span id="welcome-bis"></span>
+
+  <div class="menu-wrapper">
+    <button id="menuToggle" class="menu-icon">☰</button>
+    <div id="dropdownMenu" class="dropdown-menu hidden">
+      <button id="show-history-btn" class="dropdown-btn">Historique</button>
+      <button id="logoutBtn" class="dropdown-btn">Déconnexion</button>
+    </div>
+  </div>
+</div>
         <div class="center">
             <h2 id="welcome-message" class="arcade-text"></h2>
             <p id="text" class="arcade-text"></p>
@@ -47,8 +59,8 @@
             <p id="response" class="response"></p>
             <p id="warning" class="warning"></p>
         </div>
-        <hr />
-        <button id="show-history-btn">Historique</button>
+       
+        
         
         <div id="history-modal" class="modal hidden">
           <div class="modal-content">
