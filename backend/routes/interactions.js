@@ -1,23 +1,31 @@
 const express = require("express");
 const router = express.Router();
-//Modèle Mongoose
 const Interaction = require("../models/Interaction");
 
+// Enregistrement d'une interaction
 router.post("/", async (req, res) => {
+    const { type, reponse, nom_utilisateur, session_id } = req.body;
+    if (!type || !reponse || !nom_utilisateur || !session_id) {
+        return res.status(400).json({ error: "Champs manquants" });
+    }
+
     try {
-        const interaction = new Interaction(req.body);
-        //ici j'enregistre le doc dans la collection mongoDB
+        const interaction = new Interaction({ type, reponse, nom_utilisateur, session_id, date: new Date() });
         const saved = await interaction.save();
-        res.status(201).json(saved);
+        res.status(201).json({ success: true, data: saved });
     } catch (err) {
-        res.status(400).json({ error: err.message });
+        res.status(500).json({ error: err.message });
     }
 });
 
+// Récupération des interactions par utilisateur
 router.get("/", async (req, res) => {
+    const nom_utilisateur = req.query.user;
+    if (!nom_utilisateur) return res.status(400).json({ error: "Nom utilisateur requis" });
+
     try {
-        const history = await Interaction.find().sort({ date: -1 }).limit(10);
-        res.json(history);
+        const interactions = await Interaction.find({ nom_utilisateur }).sort({ session_id: -1, date: 1 });
+        res.json(interactions);
     } catch (err) {
         res.status(500).json({ error: err.message });
     }

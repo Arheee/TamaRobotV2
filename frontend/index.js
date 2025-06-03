@@ -252,20 +252,26 @@ function displayWarning(message) {
 }
 
 // Dropdown menu
+let dropdownInitialized = false;
+
 function setupDropdownToggle() {
-  const menuToggle = document.getElementById("menuToggle");
-  const dropdownMenu = document.getElementById("dropdownMenu");
+    if (dropdownInitialized) return; // évite les doublons
 
-  if (menuToggle && dropdownMenu) {
-    menuToggle.addEventListener("click", e => {
-      e.stopPropagation();
-      dropdownMenu.classList.toggle("hidden");
-    });
+    const menuToggle = document.getElementById("menuToggle");
+    const dropdownMenu = document.getElementById("dropdownMenu");
 
-    document.addEventListener("click", e => {
-      if (!menuToggle.contains(e.target) && !dropdownMenu.contains(e.target)) {
-        dropdownMenu.classList.add("hidden");
-      }
-    });
-  }
+    if (menuToggle && dropdownMenu) {
+        menuToggle.addEventListener("click", (e) => {
+            e.stopPropagation();
+            dropdownMenu.classList.toggle("hidden");
+        });
+
+        document.addEventListener("click", (event) => {
+            if (!menuToggle.contains(event.target) && !dropdownMenu.contains(event.target)) {
+                dropdownMenu.classList.add("hidden");
+            }
+        });
+
+        dropdownInitialized = true;
+    }
 }
