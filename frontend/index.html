@@ -1,81 +1,73 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <title>Tamarobot Authentification</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <title>Tamarobot Authentification</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <div class="center">
+    <h1 class="arcade-text">Tamarobot</h1>
+    <img src="tamalogo.png" alt="Tamarobot" class="robot-img" />
+  </div>
+
+  <!-- Connexion -->
+  <div id="login-form" class="auth-form">
+    <h2>Connexion</h2>
+    <input type="text" id="login-username" placeholder="Nom d'utilisateur" />
+    <input type="password" id="login-password" placeholder="Mot de passe" />
+    <button id="loginBtn">Se connecter</button>
+    <p id="loginMessage" class="message"></p>
+    <p><a href="#" id="show-register">Pas encore de compte ? Créer un robot</a></p>
+  </div>
+
+  <!-- Inscription -->
+  <div id="register-form" class="auth-form hidden">
+    <h2>Créer un compte</h2>
+    <input type="text" id="register-username" placeholder="Nom d'utilisateur" />
+    <input type="password" id="register-password" placeholder="Mot de passe" />
+    <input type="text" id="register-robotname" placeholder="Nom du Tamarobot" />
+    <button id="registerBtn">Créer mon robot</button>
+    <p id="registerMessage" class="message"></p>
+    <p><a href="#" id="show-login">J'ai déjà un compte</a></p>
+  </div>
+
+  <!-- Zone de jeu -->
+  <div id="game-section" class="hidden">
+    <div class="top-bar" id="top-bar">
+      <span id="welcome-bis"></span>
+      <div class="menu-wrapper">
+        <button id="menuToggle" class="menu-icon">☰</button>
+        <div id="dropdownMenu" class="dropdown-menu hidden">
+          <button id="logoutBtn" class="dropdown-btn">Déconnexion</button>
+        </div>
+      </div>
+    </div>
+
     <div class="center">
-        <h1 class="arcade-text">Tamarobot</h1>
-        <img src="tamalogo.png" alt="Tamarobot" class="robot-img" />
+      <h2 id="welcome-message" class="arcade-text"></h2>
+      <p id="text" class="arcade-text"></p>
     </div>
 
-    <!-- Connexion -->
-    <div id="login-form" class="auth-form">
-        <h2>Connexion</h2>
-        <input type="text" id="login-username" placeholder="Nom d'utilisateur" />
-        <input type="password" id="login-password" placeholder="Mot de passe" />
-        <button id="loginBtn">Se connecter</button>
-        <p id="loginMessage" class="message"></p>
-        <p><a href="#" id="show-register">Pas encore de compte ? Créer un robot</a></p>
-    </div>
+    <div style="display: flex; align-items: flex-start;">
+      <div class="buttons" id="button-container" style="flex: 1; text-align: left; display: none;">
+        <button id="btnBonjour">Bonjour</button>
+        <br />
+        <button id="btnManger">Donner à manger</button>
+        <br />
+        <button id="btnBoire">Donner à boire</button>
+        <br />
+        <button id="btnChanter">Chanter une berceuse</button>
+      </div>
 
-    <!-- Inscription -->
-    <div id="register-form" class="auth-form hidden">
-        <h2>Créer un compte</h2>
-        <input type="text" id="register-username" placeholder="Nom d'utilisateur" />
-        <input type="password" id="register-password" placeholder="Mot de passe" />
-        <input type="text" id="register-robotname" placeholder="Nom du Tamarobot" />
-        <button id="registerBtn" type="button">Créer mon robot</button>
-        <p id="registerMessage" class="message"></p>
-        <p><a href="#" id="show-login">J'ai déjà un compte</a></p>
-    </div>
-
-    <!-- Section jeu -->
-    <div id="game-section" class="hidden">
-        <div id="top-bar" class="top-bar">
-  <span id="welcome-bis"></span>
-
-  <div class="menu-wrapper">
-    <button id="menuToggle" class="menu-icon">☰</button>
-    <div id="dropdownMenu" class="dropdown-menu hidden">
-      <button id="show-history-btn" class="dropdown-btn">Historique</button>
-      <button id="logoutBtn" class="dropdown-btn">Déconnexion</button>
+      <div id="response-container" style="flex: 2; padding-left: 20px;">
+        <div id="action-image" style="margin-top: 10px;"></div>
+        <p id="response" class="response"></p>
+        <p id="warning" class="warning"></p>
+      </div>
     </div>
   </div>
-</div>
-        <div class="center">
-            <h2 id="welcome-message" class="arcade-text"></h2>
-            <p id="text" class="arcade-text"></p>
-        </div>
-      <div style="display: flex; align-items: flex-start;">
-        <div class="buttons" id="button-container" style="flex: 1; text-align: left;">
-            <button id="btnBonjour">Bonjour</button>
-            <button id="btnManger">Donner à manger</button>
-            <button id="btnBoire">Donner à boire</button>
-            <button id="btnChanter">Chanter une berceuse</button>
-        </div>
-        <div id="response-container" style="flex: 2; padding-left: 20px;">
-            <div id="action-image" style="margin-top: 10px;"></div>
-            <p id="response" class="response"></p>
-            <p id="warning" class="warning"></p>
-        </div>
-       </div>
-        
-        
-        <div id="history-modal" class="modal hidden">
-          <div class="modal-content">
-            <span id="close-modal" class="close">&times;</span>
-            <h3>Historique du robot</h3>
-            <ul id="history-list"></ul>
-          </div>
-        </div>
-    </div>
 
-  
-
-
-    <script src="index.js"></script>
+  <script src="index.js"></script>
 </body>
 </html>
