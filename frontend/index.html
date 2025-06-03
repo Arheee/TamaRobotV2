@@ -27,7 +27,7 @@
         <input type="text" id="register-username" placeholder="Nom d'utilisateur" />
         <input type="password" id="register-password" placeholder="Mot de passe" />
         <input type="text" id="register-robotname" placeholder="Nom du Tamarobot" />
-        <button id="registerBtn">Créer mon robot</button>
+        <button id="registerBtn" type="button">Créer mon robot</button>
         <p id="registerMessage" class="message"></p>
         <p><a href="#" id="show-login">J'ai déjà un compte</a></p>
     </div>
@@ -49,17 +49,19 @@
             <h2 id="welcome-message" class="arcade-text"></h2>
             <p id="text" class="arcade-text"></p>
         </div>
-        <div class="buttons" id="button-container">
+      <div style="display: flex; align-items: flex-start;">
+        <div class="buttons" id="button-container" style="flex: 1; text-align: left;">
             <button id="btnBonjour">Bonjour</button>
             <button id="btnManger">Donner à manger</button>
             <button id="btnBoire">Donner à boire</button>
             <button id="btnChanter">Chanter une berceuse</button>
         </div>
-        <div id="response-container" class="center">
+        <div id="response-container" style="flex: 2; padding-left: 20px;">
+            <div id="action-image" style="margin-top: 10px;"></div>
             <p id="response" class="response"></p>
             <p id="warning" class="warning"></p>
         </div>
-       
+       </div>
         
         
         <div id="history-modal" class="modal hidden">

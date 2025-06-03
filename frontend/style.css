@@ -8,6 +8,7 @@ body {
     padding: 2rem;
 }
 
+
 /* === TITRE TAMAROBOT === */
 .arcade-text {
     letter-spacing: 1px;
@@ -51,10 +52,11 @@ body {
     font-size: 0.7rem;
 }
 .auth-form button {
+    font-family: 'Press Start 2P', cursive;
     padding: 0.4rem 0.8rem;
     font-size: 0.7rem;
-    background-color: #222;
-    color: #dc1b8d;
+    background-color: #dc1b8d;
+    color: #000000;
     border: 2px solid #dc1b8d;
     border-radius: 5px;
     cursor: pointer;
@@ -62,6 +64,7 @@ body {
 }
 .auth-form button:hover {
     background-color: #0ac7bc;
+    border: 2px solid #0ac7bc;
     color: black;
     transform: scale(1.05);
 }
@@ -87,6 +90,7 @@ body {
     margin-top: 1rem;
 }
 button {
+    font-family: 'Press Start 2P', cursive;
     margin: 0.5rem;
     padding: 0.5rem 1rem;
     font-size: 0.9rem;
@@ -102,6 +106,7 @@ button:hover {
     color: black;
     transform: scale(1.1);
 }
+
 
 /* === RÉPONSES DU ROBOT === */
 .response {
