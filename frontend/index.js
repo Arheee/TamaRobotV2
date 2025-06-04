@@ -75,7 +75,8 @@ document.getElementById("loginBtn").addEventListener("click", () => {
 
       resetInterface();
       showOnly("game-section");
-      setupDropdownToggle();
+      setupGameEventListeners();
+      // setupDropdownToggle();
 
       if (data.dejaConnecte) {
         welcomeBis.textContent = `💖 Te revoilà ${lastUser}, ${lastTama} t’attendait ! 💖`;
@@ -273,5 +274,53 @@ function setupDropdownToggle() {
         });
 
         dropdownInitialized = true;
+    }
+}
+
+function setupGameEventListeners() {
+    const menuToggle = document.getElementById("menuToggle");
+    const dropdownMenu = document.getElementById("dropdownMenu");
+
+    if (menuToggle && dropdownMenu) {
+        menuToggle.onclick = (e) => {
+            e.stopPropagation();
+            dropdownMenu.classList.toggle("hidden");
+        };
+
+        document.addEventListener("click", (event) => {
+            if (!menuToggle.contains(event.target) && !dropdownMenu.contains(event.target)) {
+                dropdownMenu.classList.add("hidden");
+            }
+        });
+    }
+
+    const showHistoryBtn = document.getElementById("show-history-btn");
+    const closeModalBtn = document.getElementById("close-modal");
+    const modal = document.getElementById("history-modal");
+
+    if (showHistoryBtn && modal) {
+        showHistoryBtn.onclick = async () => {
+            //const res = await fetch(`http://localhost:3000/interactions`);
+            const res = await fetch(`http://localhost:3000/interactions?user=${encodeURIComponent(lastUser)}`);
+
+            const data = await res.json();
+
+            const historyList = document.getElementById("history-list");
+            historyList.innerHTML = "";
+
+            data.forEach(entry => {
+                const li = document.createElement("li");
+                li.textContent = `${entry.type} → ${entry.reponse}`;
+                historyList.appendChild(li);
+            });
+
+            modal.classList.remove("hidden");
+        };
+    }
+
+    if (closeModalBtn && modal) {
+        closeModalBtn.onclick = () => {
+            modal.classList.add("hidden");
+        };
     }
 }

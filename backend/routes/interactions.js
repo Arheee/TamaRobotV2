@@ -21,10 +21,14 @@ router.post("/", async (req, res) => {
 // Récupération des interactions par utilisateur
 router.get("/", async (req, res) => {
     const nom_utilisateur = req.query.user;
-    if (!nom_utilisateur) return res.status(400).json({ error: "Nom utilisateur requis" });
+    if (!nom_utilisateur){
+        return res.status(400).json({ error: "Nom utilisateur requis" });
+    } 
 
     try {
-        const interactions = await Interaction.find({ nom_utilisateur }).sort({ session_id: -1, date: 1 });
+        const interactions = await Interaction.find({ nom_utilisateur })
+        .sort({ date: -1 })
+        .limit(50);
         res.json(interactions);
     } catch (err) {
         res.status(500).json({ error: err.message });
