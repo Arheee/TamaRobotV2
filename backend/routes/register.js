@@ -2,6 +2,11 @@ const express = require("express");
 const router = express.Router();
 const db = require("../mysql");
 
+//GET
+router.get("/", (req, res) => {
+  res.send("Route register OK");
+});
+
 // POST /register
 router.post("/", async (req, res) => {
     const { nom_utilisateur, mot_de_passe, nom_tama } = req.body;

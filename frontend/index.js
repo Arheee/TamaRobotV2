@@ -69,6 +69,12 @@ document.getElementById("loginBtn").addEventListener("click", () => {
         return;
       }
 
+    //Verification si admin ou pas
+    if (data.utilisateur === "admin" && data.tamabot === "TamaKing") {
+    window.location.href = "/admin.html";  
+    return;
+    }
+
       lastUser = data.utilisateur;
       lastTama = data.tamabot;
       currentSessionId = new Date().toISOString();
@@ -302,17 +308,66 @@ function setupGameEventListeners() {
         showHistoryBtn.onclick = async () => {
             //const res = await fetch(`http://localhost:3000/interactions`);
             const res = await fetch(`http://localhost:3000/interactions?user=${encodeURIComponent(lastUser)}`);
-
             const data = await res.json();
 
+          // Calcule la date limite (aujourd'hui - 2 jours)
+            const now = new Date();
+            const deuxJoursAvant = new Date(now);
+            deuxJoursAvant.setDate(now.getDate() - 2);
+
+            const filteredData = data.filter(entry => {
+                const entryDate = new Date(entry.date);
+                return entryDate >= deuxJoursAvant && entry.nom_utilisateur === lastUser;
+            });
+           
             const historyList = document.getElementById("history-list");
             historyList.innerHTML = "";
 
-            data.forEach(entry => {
+            const grouped = {};
+          filteredData.forEach(entry => {
+            if (!grouped[entry.session_id]) grouped[entry.session_id] = [];
+            grouped[entry.session_id].push(entry);
+          });
+
+          for (const session of Object.keys(grouped).sort().reverse()) {
+            const header = document.createElement("li");
+            header.textContent = ` (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧Connexion du ${new Date(session).toLocaleString()}`;
+            header.style.fontWeight = "bold";
+            header.style.marginTop = "1rem";
+            historyList.appendChild(header);
+
+            grouped[session].forEach(entry => {
                 const li = document.createElement("li");
                 li.textContent = `${entry.type} → ${entry.reponse}`;
                 historyList.appendChild(li);
             });
+
+            const separator = document.createElement("li");
+            separator.textContent = "______________________________________________";
+            separator.style.color = "#0ac7bc";
+            separator.style.marginBottom = "1rem";
+            historyList.appendChild(separator);
+          }
+          
+          // Statistiques
+          const stats = { bonjour: 0, manger: 0, boire: 0, chanter: 0 };
+          filteredData.forEach(entry => {
+            if (stats[entry.type] !== undefined) {
+              stats[entry.type]++;
+            }
+          });
+
+          const statsHeader = document.createElement("li");
+          statsHeader.textContent = "✨ Statistiques récentes ✨";
+          statsHeader.style.fontWeight = "bold";
+          statsHeader.style.marginTop = "1.5rem";
+          historyList.appendChild(statsHeader);
+
+          Object.entries(stats).forEach(([action, count]) => {
+            const statLine = document.createElement("li");
+            statLine.textContent = `${action} → ${count} fois`;
+            historyList.appendChild(statLine);
+          });
 
             modal.classList.remove("hidden");
         };

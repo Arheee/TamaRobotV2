@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Interaction = require("../models/Interaction");
 
-// Enregistrement d'une interaction
+// POST
 router.post("/", async (req, res) => {
     const { type, reponse, nom_utilisateur, session_id } = req.body;
     if (!type || !reponse || !nom_utilisateur || !session_id) {
@@ -18,7 +18,7 @@ router.post("/", async (req, res) => {
     }
 });
 
-// Récupération des interactions par utilisateur
+// GET
 router.get("/", async (req, res) => {
     const nom_utilisateur = req.query.user;
     if (!nom_utilisateur){
