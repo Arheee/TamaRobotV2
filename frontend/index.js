@@ -65,7 +65,7 @@ document.getElementById("loginBtn").addEventListener("click", () => {
     .then(res => res.json())
     .then(data => {
       if (data.error) {
-        message.textContent = "❌ " + data.error;
+        message.textContent = "erreur " + data.error;
         return;
       }
 

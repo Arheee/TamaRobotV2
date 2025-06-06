@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const Interaction = require("../models/Interaction");
+const Interaction = require("../models/interactionModel");
 
 // POST
 router.post("/", async (req, res) => {

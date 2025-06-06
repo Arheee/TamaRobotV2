@@ -35,13 +35,11 @@ app.get("/", (req, res) => {
 const interactionsRoutes = require("./routes/interactions");
 const registerRoutes = require("./routes/register");
 const loginRoutes = require("./routes/login");
-const adminRoutes = require("./routes/admin");
 
 // Utilisation des routes
 app.use("/interactions", interactionsRoutes);
 app.use("/register", registerRoutes);
 app.use("/login", loginRoutes);
-app.use("/admin", adminRoutes);
 
 // Lancement du serveur
 app.listen(PORT, () => {
