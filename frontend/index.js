@@ -1,15 +1,49 @@
+// Helpers utils intégrés
+async function postJSON(url, data) {
+  const response = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+
+  if (!response.ok) {
+    let errorMsg = "Erreur serveur";
+    try {
+      const errorData = await response.json();
+      if (errorData.error) errorMsg = errorData.error;
+    } catch {
+      // Pas de JSON retourné
+    }
+    throw new Error(errorMsg);
+  }
+
+  return response.json();
+}
+
+async function getJSON(url) {
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error("Erreur réseau");
+  }
+  return response.json();
+}
+
+
+// Variables globales
 const textElement = document.getElementById("text");
 const responseElement = document.getElementById("response");
 const topBar = document.getElementById("top-bar");
 const welcomeBis = document.getElementById("welcome-bis");
 const logoutBtn = document.getElementById("logoutBtn");
-const menuBtn = document.getElementById("menuBtn");
 
 let index = 0;
 let text = "";
 let currentSessionId = null;
 let lastUser = "";
 let lastTama = "";
+
+const API_URL = "http://localhost:3000"; // à déplacer en .env plus tard
+
 
 function resetInterface() {
   ["login-form", "register-form", "game-section"].forEach(id => {
@@ -25,13 +59,15 @@ function resetInterface() {
   document.getElementById("action-image").innerHTML = "";
   document.getElementById("button-container").style.display = "none";
 
-  document.getElementById("login-username").value = "";
-  document.getElementById("login-password").value = "";
-  document.getElementById("loginMessage").textContent = "";
-  document.getElementById("register-username").value = "";
-  document.getElementById("register-password").value = "";
-  document.getElementById("register-robotname").value = "";
-  document.getElementById("registerMessage").textContent = "";
+  ["login-username", "login-password", "register-username", "register-password", "register-robotname"].forEach(id => {
+    const input = document.getElementById(id);
+    if(input) input.value = "";
+  });
+
+  ["loginMessage", "registerMessage"].forEach(id => {
+    const msg = document.getElementById(id);
+    if(msg) msg.textContent = "";
+  });
 
   topBar.classList.add("hidden");
   const dropdown = document.getElementById("dropdownMenu");
@@ -43,16 +79,16 @@ function showOnly(sectionId) {
     const el = document.getElementById(id);
     if (el) el.classList.add("hidden");
   });
-  document.getElementById(sectionId).classList.remove("hidden");
+  const toShow = document.getElementById(sectionId);
+  if(toShow) toShow.classList.remove("hidden");
 }
 
 // Connexion
-const API_URL = "http://localhost:3000"; // à déplacer en .env plus tard
-
 document.getElementById("loginBtn").addEventListener("click", async () => {
   const username = document.getElementById("login-username").value.trim();
   const password = document.getElementById("login-password").value.trim();
   const message = document.getElementById("loginMessage");
+
 
   if (!username || !password) {
     message.textContent = "⚠️ Tous les champs sont requis.";
@@ -60,21 +96,10 @@ document.getElementById("loginBtn").addEventListener("click", async () => {
   }
 
   try {
-    const response = await fetch(`${API_URL}/login`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        nom_utilisateur: username,
-        mot_de_passe: password
-      }),
+    const data = await postJSON(`${API_URL}/login`, {
+      nom_utilisateur: username,
+      mot_de_passe: password,
     });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      message.textContent = "❌ " + (data.error || "Erreur serveur.");
-      return;
-    }
 
     if (data.utilisateur === "admin" && data.tamabot === "TamaKing") {
       window.location.href = "/admin.html";
@@ -110,12 +135,12 @@ document.getElementById("loginBtn").addEventListener("click", async () => {
 
   } catch (err) {
     console.error(err);
-    message.textContent = "❌ Erreur serveur.";
+    message.textContent = "❌ " + err.message;
   }
 });
 
 // Inscription
-document.getElementById("registerBtn").addEventListener("click", () => {
+document.getElementById("registerBtn").addEventListener("click", async () => {
   const username = document.getElementById("register-username").value.trim();
   const password = document.getElementById("register-password").value.trim();
   const robotname = document.getElementById("register-robotname").value.trim();
@@ -126,18 +151,18 @@ document.getElementById("registerBtn").addEventListener("click", () => {
     return;
   }
 
-  fetch("http://localhost:3000/register", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ nom_utilisateur: username, mot_de_passe: password, nom_tama: robotname }),
-  })
-    .then(res => res.json())
-    .then(data => {
-      message.textContent = data.error ? "❌ " + data.error : "✅ " + data.message;
-    })
-    .catch(() => {
-      message.textContent = "❌ Erreur serveur.";
+  try {
+    const data = await postJSON(`${API_URL}/register`, {
+      nom_utilisateur: username,
+      mot_de_passe: password,
+      nom_tama: robotname
     });
+
+    message.textContent = data.error ? "❌ " + data.error : "✅ " + data.message;
+
+  } catch (err) {
+    message.textContent = "❌ " + err.message;
+  }
 });
 
 // Switcher formulaire
@@ -268,120 +293,122 @@ function displayWarning(message) {
 let dropdownInitialized = false;
 
 function setupDropdownToggle() {
-    if (dropdownInitialized) return; // évite les doublons
+  if (dropdownInitialized) return; // évite les doublons
 
-    const menuToggle = document.getElementById("menuToggle");
-    const dropdownMenu = document.getElementById("dropdownMenu");
+  const menuToggle = document.getElementById("menuToggle");
+  const dropdownMenu = document.getElementById("dropdownMenu");
 
-    if (menuToggle && dropdownMenu) {
-        menuToggle.addEventListener("click", (e) => {
-            e.stopPropagation();
-            dropdownMenu.classList.toggle("hidden");
-        });
+  if (menuToggle && dropdownMenu) {
+    menuToggle.addEventListener("click", (e) => {
+      e.stopPropagation();
+      dropdownMenu.classList.toggle("hidden");
+    });
 
-        document.addEventListener("click", (event) => {
-            if (!menuToggle.contains(event.target) && !dropdownMenu.contains(event.target)) {
-                dropdownMenu.classList.add("hidden");
-            }
-        });
+    document.addEventListener("click", (event) => {
+      if (!menuToggle.contains(event.target) && !dropdownMenu.contains(event.target)) {
+        dropdownMenu.classList.add("hidden");
+      }
+    });
 
-        dropdownInitialized = true;
-    }
+    dropdownInitialized = true;
+  }
 }
 
 function setupGameEventListeners() {
-    const menuToggle = document.getElementById("menuToggle");
-    const dropdownMenu = document.getElementById("dropdownMenu");
+  const menuToggle = document.getElementById("menuToggle");
+  const dropdownMenu = document.getElementById("dropdownMenu");
 
-    if (menuToggle && dropdownMenu) {
-        menuToggle.onclick = (e) => {
-            e.stopPropagation();
-            dropdownMenu.classList.toggle("hidden");
-        };
+  if (menuToggle && dropdownMenu) {
+    menuToggle.onclick = (e) => {
+      e.stopPropagation();
+      dropdownMenu.classList.toggle("hidden");
+    };
 
-        document.addEventListener("click", (event) => {
-            if (!menuToggle.contains(event.target) && !dropdownMenu.contains(event.target)) {
-                dropdownMenu.classList.add("hidden");
-            }
+    document.addEventListener("click", (event) => {
+      if (!menuToggle.contains(event.target) && !dropdownMenu.contains(event.target)) {
+        dropdownMenu.classList.add("hidden");
+      }
+    });
+  }
+
+  const showHistoryBtn = document.getElementById("show-history-btn");
+  const closeModalBtn = document.getElementById("close-modal");
+  const modal = document.getElementById("history-modal");
+
+  if (showHistoryBtn && modal) {
+    showHistoryBtn.onclick = async () => {
+      try {
+        const res = await fetch(`http://localhost:3000/interactions?user=${encodeURIComponent(lastUser)}`);
+        const data = await res.json();
+
+        const now = new Date();
+        const twoDaysAgo = new Date(now);
+        twoDaysAgo.setDate(now.getDate() - 2);
+
+        const filteredData = data.filter(entry => {
+          const entryDate = new Date(entry.date);
+          return entryDate >= deuxDaysAgo && entry.nom_utilisateur === lastUser;
         });
-    }
 
-    const showHistoryBtn = document.getElementById("show-history-btn");
-    const closeModalBtn = document.getElementById("close-modal");
-    const modal = document.getElementById("history-modal");
+        const historyList = document.getElementById("history-list");
+        historyList.innerHTML = "";
 
-    if (showHistoryBtn && modal) {
-        showHistoryBtn.onclick = async () => {
-            //const res = await fetch(`http://localhost:3000/interactions`);
-            const res = await fetch(`http://localhost:3000/interactions?user=${encodeURIComponent(lastUser)}`);
-            const data = await res.json();
+        const grouped = {};
+        filteredData.forEach(entry => {
+          if (!grouped[entry.session_id]) grouped[entry.session_id] = [];
+          grouped[entry.session_id].push(entry);
+        });
 
-          // Calcule la date limite (aujourd'hui - 2 jours)
-            const now = new Date();
-            const deuxJoursAvant = new Date(now);
-            deuxJoursAvant.setDate(now.getDate() - 2);
+        Object.keys(grouped).sort().reverse().forEach(session => {
+          const header = document.createElement("li");
+          header.textContent = ` (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧Connexion du ${new Date(session).toLocaleString()}`;
+          header.style.fontWeight = "bold";
+          header.style.marginTop = "1rem";
+          historyList.appendChild(header);
 
-            const filteredData = data.filter(entry => {
-                const entryDate = new Date(entry.date);
-                return entryDate >= deuxJoursAvant && entry.nom_utilisateur === lastUser;
-            });
-           
-            const historyList = document.getElementById("history-list");
-            historyList.innerHTML = "";
-
-            const grouped = {};
-          filteredData.forEach(entry => {
-            if (!grouped[entry.session_id]) grouped[entry.session_id] = [];
-            grouped[entry.session_id].push(entry);
+          grouped[session].forEach(entry => {
+            const li = document.createElement("li");
+            li.textContent = `${entry.type} → ${entry.reponse}`;
+            historyList.appendChild(li);
           });
 
-          for (const session of Object.keys(grouped).sort().reverse()) {
-            const header = document.createElement("li");
-            header.textContent = ` (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧Connexion du ${new Date(session).toLocaleString()}`;
-            header.style.fontWeight = "bold";
-            header.style.marginTop = "1rem";
-            historyList.appendChild(header);
+          const separator = document.createElement("li");
+          separator.textContent = "______________________________________________";
+          separator.style.color = "#0ac7bc";
+          separator.style.marginBottom = "1rem";
+          historyList.appendChild(separator);
+        });
 
-            grouped[session].forEach(entry => {
-                const li = document.createElement("li");
-                li.textContent = `${entry.type} → ${entry.reponse}`;
-                historyList.appendChild(li);
-            });
-
-            const separator = document.createElement("li");
-            separator.textContent = "______________________________________________";
-            separator.style.color = "#0ac7bc";
-            separator.style.marginBottom = "1rem";
-            historyList.appendChild(separator);
+        // Statistiques
+        const stats = { bonjour: 0, manger: 0, boire: 0, chanter: 0 };
+        filteredData.forEach(entry => {
+          if (stats[entry.type] !== undefined) {
+            stats[entry.type]++;
           }
-          
-          // Statistiques
-          const stats = { bonjour: 0, manger: 0, boire: 0, chanter: 0 };
-          filteredData.forEach(entry => {
-            if (stats[entry.type] !== undefined) {
-              stats[entry.type]++;
-            }
-          });
+        });
 
-          const statsHeader = document.createElement("li");
-          statsHeader.textContent = "✨ Statistiques récentes ✨";
-          statsHeader.style.fontWeight = "bold";
-          statsHeader.style.marginTop = "1.5rem";
-          historyList.appendChild(statsHeader);
+        const statsHeader = document.createElement("li");
+        statsHeader.textContent = "✨ Statistiques récentes ✨";
+        statsHeader.style.fontWeight = "bold";
+        statsHeader.style.marginTop = "1.5rem";
+        historyList.appendChild(statsHeader);
 
-          Object.entries(stats).forEach(([action, count]) => {
-            const statLine = document.createElement("li");
-            statLine.textContent = `${action} → ${count} fois`;
-            historyList.appendChild(statLine);
-          });
+        Object.entries(stats).forEach(([action, count]) => {
+          const statLine = document.createElement("li");
+          statLine.textContent = `${action} → ${count} fois`;
+          historyList.appendChild(statLine);
+        });
 
-            modal.classList.remove("hidden");
-        };
-    }
+        modal.classList.remove("hidden");
+      } catch (error) {
+        console.error("Erreur récupération historique :", error);
+      }
+    };
+  }
 
-    if (closeModalBtn && modal) {
-        closeModalBtn.onclick = () => {
-            modal.classList.add("hidden");
-        };
-    }
+  if (closeModalBtn && modal) {
+    closeModalBtn.onclick = () => {
+      modal.classList.add("hidden");
+    };
+  }
 }
