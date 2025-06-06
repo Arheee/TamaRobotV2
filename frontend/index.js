@@ -47,7 +47,9 @@ function showOnly(sectionId) {
 }
 
 // Connexion
-document.getElementById("loginBtn").addEventListener("click", () => {
+const API_URL = "http://localhost:3000"; // à déplacer en .env plus tard
+
+document.getElementById("loginBtn").addEventListener("click", async () => {
   const username = document.getElementById("login-username").value.trim();
   const password = document.getElementById("login-password").value.trim();
   const message = document.getElementById("loginMessage");
@@ -57,55 +59,59 @@ document.getElementById("loginBtn").addEventListener("click", () => {
     return;
   }
 
-  fetch("http://localhost:3000/login", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ nom_utilisateur: username, mot_de_passe: password }),
-  })
-    .then(res => res.json())
-    .then(data => {
-      if (data.error) {
-        message.textContent = "erreur " + data.error;
-        return;
-      }
+  try {
+    const response = await fetch(`${API_URL}/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        nom_utilisateur: username,
+        mot_de_passe: password
+      }),
+    });
 
-    //Verification si admin ou pas
-    if (data.utilisateur === "admin" && data.tamabot === "TamaKing") {
-    window.location.href = "/admin.html";  
-    return;
+    const data = await response.json();
+
+    if (!response.ok) {
+      message.textContent = "❌ " + (data.error || "Erreur serveur.");
+      return;
     }
 
-      lastUser = data.utilisateur;
-      lastTama = data.tamabot;
-      currentSessionId = new Date().toISOString();
+    if (data.utilisateur === "admin" && data.tamabot === "TamaKing") {
+      window.location.href = "/admin.html";
+      return;
+    }
 
-      resetInterface();
-      showOnly("game-section");
-      setupGameEventListeners();
-      // setupDropdownToggle();
+    lastUser = data.utilisateur;
+    lastTama = data.tamabot;
+    currentSessionId = new Date().toISOString();
 
-      if (data.dejaConnecte) {
-        welcomeBis.textContent = `💖 Te revoilà ${lastUser}, ${lastTama} t’attendait ! 💖`;
-        topBar.classList.remove("hidden");
-        setTimeout(() => {
-          welcomeBis.textContent = "";
-          document.getElementById("welcome-message").textContent = `Que faire avec ${lastTama} ?`;
-        }, 4000);
-      } else {
-        document.getElementById("welcome-message").textContent = `Bienvenue ${lastUser} !`;
-        topBar.classList.remove("hidden");
-        setTimeout(() => {
-          document.getElementById("welcome-message").textContent = `Tu as ${lastTama}`;
-        }, 4000);
-      }
+    resetInterface();
+    showOnly("game-section");
+    setupGameEventListeners();
 
-      text = `Ton Tamarobot s'appelle ${lastTama}`;
-      index = 0;
-      typeText();
-    })
-    .catch(() => {
-      message.textContent = "❌ Erreur serveur.";
-    });
+    if (data.dejaConnecte) {
+      welcomeBis.textContent = `💖 Te revoilà ${lastUser}, ${lastTama} t’attendait ! 💖`;
+      topBar.classList.remove("hidden");
+      setTimeout(() => {
+        welcomeBis.textContent = "";
+        document.getElementById("welcome-message").textContent = `Que faire avec ${lastTama} ?`;
+      }, 4000);
+    } else {
+      document.getElementById("welcome-message").textContent = `Bienvenue ${lastUser} !`;
+      topBar.classList.remove("hidden");
+      setTimeout(() => {
+        document.getElementById("welcome-message").textContent = `Tu as ${lastTama}`;
+      }, 4000);
+    }
+
+    text = `Ton Tamarobot s'appelle ${lastTama}`;
+    index = 0;
+    typeText();
+
+  } catch (err) {
+    console.error(err);
+    message.textContent = "❌ Erreur serveur.";
+  }
 });
 
 // Inscription

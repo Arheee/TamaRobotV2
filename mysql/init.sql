@@ -35,3 +35,5 @@ VALUES ('admin', 'admin123', 'admin');
 
 SET @admin_id = (SELECT id FROM utilisateurs WHERE nom_utilisateur = 'admin');
 INSERT INTO tamarobots (nom_tama, utilisateur_id) VALUES ('TamaKing', @admin_id);
+
+ALTER TABLE utilisateurs ADD derniere_connexion DATETIME NULL;

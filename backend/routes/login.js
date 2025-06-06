@@ -2,10 +2,6 @@ const express = require("express");
 const router = express.Router();
 const db = require("../mysql");
 
-router.get("/",(req, res) =>{
-    res.send("Route de login ok");
-});
-
 
 router.post("/", async (req, res) => {
     const { nom_utilisateur, mot_de_passe } = req.body;
@@ -23,6 +19,9 @@ router.post("/", async (req, res) => {
             [nom_utilisateur, mot_de_passe]
         );
 
+        if (rows.length === 0) {
+      return res.status(401).json({ error: "Identifiants invalides." });
+    }
         const utilisateur = rows[0];
         const dejaConnecte = utilisateur.derniere_connexion !== null;
 
