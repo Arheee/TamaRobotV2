@@ -347,7 +347,7 @@ function setupGameEventListeners() {
 
         const filteredData = data.filter(entry => {
           const entryDate = new Date(entry.date);
-          return entryDate >= deuxDaysAgo && entry.nom_utilisateur === lastUser;
+          return entryDate >= twoDaysAgo && entry.nom_utilisateur === lastUser;
         });
 
         const historyList = document.getElementById("history-list");
