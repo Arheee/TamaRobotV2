@@ -88,7 +88,9 @@ document.getElementById("loginBtn").addEventListener("click", async () => {
   const username = document.getElementById("login-username").value.trim();
   const password = document.getElementById("login-password").value.trim();
   const message = document.getElementById("loginMessage");
+  const t_pot_connexion = document.getElementById("t_pot_connexion").value;
 
+  console.log("valeur de t_pot :", t_pot_connexion);
 
   if (!username || !password) {
     message.textContent = "⚠️ Tous les champs sont requis.";
@@ -99,6 +101,7 @@ document.getElementById("loginBtn").addEventListener("click", async () => {
     const data = await postJSON(`${API_URL}/login`, {
       nom_utilisateur: username,
       mot_de_passe: password,
+      t_pot_connexion: t_pot_connexion
     });
 
     if (data.utilisateur === "admin" && data.tamabot === "TamaKing") {
@@ -145,6 +148,7 @@ document.getElementById("registerBtn").addEventListener("click", async () => {
   const password = document.getElementById("register-password").value.trim();
   const robotname = document.getElementById("register-robotname").value.trim();
   const message = document.getElementById("registerMessage");
+  const t_pot = document.getElementById("t_pot").value;
 
   if (!username || !password || !robotname) {
     message.textContent = "Tous les champs sont requis.";
@@ -155,7 +159,8 @@ document.getElementById("registerBtn").addEventListener("click", async () => {
     const data = await postJSON(`${API_URL}/register`, {
       nom_utilisateur: username,
       mot_de_passe: password,
-      nom_tama: robotname
+      nom_tama: robotname,
+      t_pot: t_pot
     });
 
     message.textContent = data.error ? "❌ " + data.error : "✅ " + data.message;

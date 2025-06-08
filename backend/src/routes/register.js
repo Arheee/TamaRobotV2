@@ -11,7 +11,12 @@ router.get("/", (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  const { nom_utilisateur, mot_de_passe, nom_tama } = req.body;
+  const { nom_utilisateur, mot_de_passe, nom_tama, t_pot } = req.body;
+
+  //Honeypot
+  if(t_pot){
+    return res.status(403).json({error: "Accès refusé"});
+  }
 
   if (!nom_utilisateur || !mot_de_passe || !nom_tama) {
     return res.status(400).json({ error: "Champs manquants" });

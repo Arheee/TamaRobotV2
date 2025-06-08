@@ -6,7 +6,12 @@ const {
 } = require("../models/loginModel");
 
 router.post("/", async (req, res) => {
-  const { nom_utilisateur, mot_de_passe } = req.body;
+  const { nom_utilisateur, mot_de_passe, t_pot_connexion } = req.body;
+
+  //Honeypot
+  if (t_pot_connexion && t_pot_connexion.trim() !== "") {
+    return res.status(401).send("L'utilisateur qui tente de se connecter n'est pas humain");
+  }
 
   if (!nom_utilisateur || !mot_de_passe) {
     return res.status(400).json({ error: "Champs requis manquants." });

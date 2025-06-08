@@ -16,6 +16,12 @@
     <h2>Connexion</h2>
     <input type="text" id="login-username" placeholder="Nom d'utilisateur" />
     <input type="password" id="login-password" placeholder="Mot de passe" /> 
+    
+    <!--Honeypot caché --> 
+    <div style="display: none;">
+      <label for="t_pot_connexion">Laissez ce champ vide</label>
+      <input type="text" name="t_pot_connexion" id="t_pot_connexion" autocomplete="off">
+    </div>
     <button id="loginBtn">Se connecter</button>
     <p id="loginMessage" class="message"></p>
     <p><a href="#" id="show-register">Pas encore de compte ? Créer un robot</a></p>
@@ -27,6 +33,10 @@
     <input type="text" id="register-username" placeholder="Nom d'utilisateur" />
     <input type="password" id="register-password" placeholder="Mot de passe" />
     <input type="text" id="register-robotname" placeholder="Nom du Tamarobot" />
+  
+    <!--Honeypot caché --> 
+    <input type="text" id="t_pot" name="t_pot" style="display: none;" autocomplete="off" />
+
     <button id="registerBtn">Créer mon robot</button>
     <p id="registerMessage" class="message"></p>
     <p><a href="#" id="show-login">J'ai déjà un compte</a></p>
