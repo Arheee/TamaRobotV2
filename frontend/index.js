@@ -90,8 +90,6 @@ document.getElementById("loginBtn").addEventListener("click", async () => {
   const message = document.getElementById("loginMessage");
   const t_pot_connexion = document.getElementById("t_pot_connexion").value;
 
-  console.log("valeur de t_pot :", t_pot_connexion);
-
   if (!username || !password) {
     message.textContent = "⚠️ Tous les champs sont requis.";
     return;
