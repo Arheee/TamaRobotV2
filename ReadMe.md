@@ -1,33 +1,72 @@
-# Tamarobot - Mini jeu interactif
+ Tamarobot – Mini Jeu Web Inspiré des Tamagotchis
+Bienvenue sur Tamarobot, un mini-jeu rétro interactif inspiré des tamagotchis.
+Ce projet mêle authentification utilisateur, animations frontend, base de données SQL & NoSQL, et architecture en conteneurs.
+Il est conçu pour être à la fois ludique et technique.
 
-Bienvenue sur **Tamarobot**, un petit projet que j'ai réalisé pour moi et mon amour pour les tamagotchis
----
+🧩 Fonctionnalités
+🧑‍💻 Création de compte & Connexion (MySQL)
 
-##  Technologies utilisées
+🤖 Création et gestion de ton Tamarobot personnalisé
 
-- Frontend : HTML / CSS (style borne arcade) + JavaScript
-- Backend : Node.js (Express)
-- Bases de données :
-  -  **MongoDB** pour enregistrer les interactions du robot
-  -  **MySQL** pour gérer les utilisateurs et leurs robots
-- Docker : pour lancer MongoDB, MySQL et le backend facilement
+🕹️ Interface arcade animée et interactive
 
----
+🕓 Historique des interactions (stocké par session dans MongoDB)
 
-## Lancer le projet
+🔐 En cours: Mode admin pour voir les utilisateurs et leurs robots
 
-### 1. Lancer les services Docker
-```bash
+🐳 Déploiement complet via Docker Compose
+
+🛠️ Technologies
+Frontend
+HTML / CSS (style borne arcade)
+
+JavaScript Vanilla (DOM, effets visuels, modales)
+
+Backend
+Node.js + Express
+
+
+Bases de données
+MySQL (utilisateurs, tamarobots)
+
+MongoDB (logs d'interactions, sessions)
+
+Outils et DevOps
+Docker & Docker Compose
+
+Live Server pour le frontend
+
+Postman pour les tests API
+
+Sonarcube
+
+🧪 Tests
+Tests manuels avec Postman (CRUD utilisateurs et robots)
+
+Historique affiché par session via modale
+
+Authentification testée avec bcrypt (hashage des mots de passe)
+
+Prévu : ajout de tests automatisés avec Jest
+
+🚀 Lancer le projet
+1. Cloner le repo et démarrer les services
+
 docker compose up --build
-```
+vous pouvez ensuite lancer l'application sur port 80
 
-### 2. Lancer le frontend avec Live Server
-- Clic droit sur `index.html` → "Open with Live Server"
----
-### 3. Connexion avec un compte test 
-- user 'alice', mdp 'azerty123'
----
-## 👤 Auteur
+2. Sans docker : Ouvrir le frontend
+Clic droit sur index.html → "Open with Live Server"
+
+3. Utiliser un compte de test
+Nom d’utilisateur : alice
+
+Mot de passe : azerty123
+
+🔒 En cours: Accès admin
+L'admin ne joue pas : il accède à une page dédiée (admin.html)
+
+Cette page liste les utilisateurs, leurs tamarobots et dernières connexions (via MySQL)
+
 
 Arheee 
-
