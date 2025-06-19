@@ -2,18 +2,35 @@
 version: '3.8'
 
 services:
+  traefik:
+    image: traefik:v2.11
+    command:
+      - --api.dashboard=true
+      - --api.insecure=true
+      - --entrypoints.web.address=:80
+      - --providers.docker=true
+      - --providers.docker.exposedbydefault=false
+    ports:
+      - "80:80"         # accès normal
+      - "8080:8080"     # dashboard Traefik (éviter conflit avec SonarQube en 9000)
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - tamarobot_net
 
   frontend:
     build:
       context: .
       dockerfile: Dockerfile.frontend
-    ports:
-      - "8080:80"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.frontend.rule=Host(`tamarobot.localhost`)"
+      - "traefik.http.services.frontend.loadbalancer.server.port=80"
+    networks:
+      - tamarobot_net
 
   backend:
     build: ./backend
-    ports:
-      - "3000:3000"
     environment:
       - MONGODB_URI=mongodb://mongo:27017/tamarobot
       - MYSQL_HOST=mysql
@@ -25,13 +42,21 @@ services:
       - mysql
     volumes:
       - ./backend:/app
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.backend.rule=Host(`api.tamarobot.localhost`)"
+      - "traefik.http.services.backend.loadbalancer.server.port=3000"
+    networks:
+      - tamarobot_net
 
   mongo:
     image: mongo
     ports:
       - "27017:27017"
     volumes:
-      - mongo-data:/data/db
+     - mongo-data:/data/db
+    networks:
+    - tamarobot_net
 
   mysql:
     image: mysql:8
@@ -43,6 +68,9 @@ services:
     volumes:
       - mysql-data:/var/lib/mysql
       - ./mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+    - tamarobot_net
+
   sonarqube:
     image: sonarqube:community
     ports:
@@ -53,6 +81,8 @@ services:
       - sonarqube_logs:/opt/sonarqube/logs
     depends_on:
       - mysql
+    networks:
+    - tamarobot_net
 
 volumes:
   mongo-data:
@@ -60,3 +90,7 @@ volumes:
   sonarqube_data:
   sonarqube_extensions:
   sonarqube_logs:
+
+networks:
+  tamarobot_net:
+    driver: bridge

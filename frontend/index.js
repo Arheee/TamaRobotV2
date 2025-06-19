@@ -3,6 +3,7 @@ async function postJSON(url, data) {
   const response = await fetch(url, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
+    credentials: "include",
     body: JSON.stringify(data),
   });
 
@@ -41,9 +42,6 @@ let text = "";
 let currentSessionId = null;
 let lastUser = "";
 let lastTama = "";
-
-const API_URL = "http://localhost:3000"; // à déplacer en .env plus tard
-
 
 function resetInterface() {
   ["login-form", "register-form", "game-section"].forEach(id => {
@@ -96,7 +94,8 @@ document.getElementById("loginBtn").addEventListener("click", async () => {
   }
 
   try {
-    const data = await postJSON(`${API_URL}/login`, {
+    
+    const data = await postJSON("http://api.tamarobot.localhost/login", {
       nom_utilisateur: username,
       mot_de_passe: password,
       t_pot_connexion: t_pot_connexion
@@ -154,7 +153,7 @@ document.getElementById("registerBtn").addEventListener("click", async () => {
   }
 
   try {
-    const data = await postJSON(`${API_URL}/register`, {
+    const data = await postJSON("http://api.tamarobot.localhost/register", {
       nom_utilisateur: username,
       mot_de_passe: password,
       nom_tama: robotname,
@@ -246,9 +245,10 @@ function displayResponse(response, isRed = false, type = "") {
   typeResponse();
 
   if (type) {
-    fetch("http://localhost:3000/interactions", {
+    fetch("http://api.tamarobot.localhost/interactions", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
+      credentials: "include",
       body: JSON.stringify({
         type: type,
         reponse: response,
@@ -341,7 +341,7 @@ function setupGameEventListeners() {
   if (showHistoryBtn && modal) {
     showHistoryBtn.onclick = async () => {
       try {
-        const res = await fetch(`http://localhost:3000/interactions?user=${encodeURIComponent(lastUser)}`);
+        const res = await fetch(`http://api.tamarobot.localhost/interactions?user=${encodeURIComponent(lastUser)}`);
         const data = await res.json();
 
         const now = new Date();
