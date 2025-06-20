@@ -12,7 +12,7 @@ services:
       - --providers.docker.exposedbydefault=false
     ports:
       - "80:80"         # accès normal
-      - "8080:8080"     # dashboard Traefik (éviter conflit avec SonarQube en 9000)
+      - "8080:8080"     # dashboard Traefik (éviter conflit avec SonarQube en 9000) http://localhost:8080/dashboard/#/
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     networks:
@@ -32,11 +32,11 @@ services:
   backend:
     build: ./backend
     environment:
-      - MONGODB_URI=mongodb://mongo:27017/tamarobot
-      - MYSQL_HOST=mysql
-      - MYSQL_USER=root
-      - MYSQL_PASSWORD=root
-      - MYSQL_DATABASE=tamarobot_sql
+      - MONGODB_URI=${MONGODB_URI}
+      - MYSQL_HOST=${MYSQL_HOST}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
     depends_on:
       - mongo
       - mysql
@@ -61,8 +61,8 @@ services:
   mysql:
     image: mysql:8
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: tamarobot_sql
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
     ports:
       - "3307:3306"
     volumes:
