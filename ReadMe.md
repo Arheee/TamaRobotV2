@@ -46,7 +46,8 @@ Traefik
 Sonarcube
 
 5.Tests
-Tests manuels avec Postman (CRUD utilisateurs et robots)
+
+Tests manuels avec Thunder Client (CRUD utilisateurs et robots)
 
 Test end to end avec Cypress
 
