@@ -16,6 +16,8 @@ Il est conçu pour être à la fois ludique et technique.
 
 🐳 Déploiement complet via Docker Compose
 
+🛤️ Sécurité de reverse proxy via Traefik
+
 ## Technologies
 1.Frontend
 HTML / CSS (style borne arcade)
@@ -36,12 +38,15 @@ Docker & Docker Compose
 
 Live Server pour le frontend
 
-Postman pour les tests API
+Traefik
 
 Sonarcube
 
 5.Tests
 Tests manuels avec Postman (CRUD utilisateurs et robots)
+
+Test end to end avec Cypress
+
 
 Historique affiché par session via modale
 
@@ -53,20 +58,14 @@ Prévu : ajout de tests automatisés avec Jest
 1. Cloner le repo et démarrer les services
 
 docker compose up --build
-vous pouvez ensuite lancer l'application sur port 80
 
-2. Sans docker : Ouvrir le frontend
-Clic droit sur index.html → "Open with Live Server"
+ 2. Faire les entrées DNS sur le fichier host
 
-3. Utiliser un compte de test
+vous pouvez ensuite lancer l'application sur Tamarobot.localhost
+
+3. Utiliser un compte de test ou créer un compte
 Nom d’utilisateur : alice
-
 Mot de passe : azerty123
-
-## En cours: Accès admin
-L'admin ne joue pas : il accède à une page dédiée (admin.html)
-
-Cette page liste les utilisateurs, leurs tamarobots et dernières connexions (via MySQL)
 
 
 Arheee 
