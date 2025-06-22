@@ -25,15 +25,18 @@ HTML / CSS (style borne arcade)
 JavaScript Vanilla (DOM, effets visuels, modales)
 
 2.Backend
+
 Node.js + Express
 
 
 3.Bases de données
+
 MySQL (utilisateurs, tamarobots)
 
 MongoDB (logs d'interactions, sessions)
 
 4.Outils et DevOps
+
 Docker & Docker Compose
 
 Live Server pour le frontend
