@@ -5,16 +5,23 @@ services:
   traefik:
     image: traefik:v2.11
     command:
-      - --api.dashboard=true
-      - --api.insecure=true
-      - --entrypoints.web.address=:80
-      - --providers.docker=true
-      - --providers.docker.exposedbydefault=false
+       - --api.dashboard=true
+       #- --api.insecure=true
+       - --entrypoints.web.address=:80
+       - --providers.docker=true
+       - --providers.docker.exposedbydefault=false
     ports:
       - "80:80"         # accès normal
-      - "8080:8080"     # dashboard Traefik (éviter conflit avec SonarQube en 9000) http://localhost:8080/dashboard/#/
+      # - "8080:8080"     # dashboard Traefik (éviter conflit avec SonarQube en 9000) http://localhost:8080/dashboard/#/
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.traefik.rule=Host(`traefik.localhost`)"
+      - "traefik.http.routers.traefik.entrypoints=web"
+      - "traefik.http.routers.traefik.service=api@internal"
+      - "traefik.http.routers.traefik.middlewares=auth"
+      - "traefik.http.middlewares.auth.basicauth.users=admin:$$2b$$10$$s5PYLBGlJRlMUZfUoeciMuvrUztvUQOWstwLFJ8NgODYkHSD/EsjO"
     networks:
       - tamarobot_net
 
