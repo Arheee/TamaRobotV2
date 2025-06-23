@@ -17,24 +17,43 @@ jobs:
         with:
           node-version: '18'
 
-      - name: Installer les dépendances
+      - name: Installer les dépendances backend
         run: npm install
         working-directory: ./backend
 
-      - name: Lancer les tests Jest
+      - name: Lancer les tests Jest (backend)
         run: npm test
         working-directory: ./backend
 
+  e2e-test:
+    runs-on: ubuntu-latest
+    needs: build-test
+    steps:
+      - name: Récupérer le code
+        uses: actions/checkout@v3
+
+      - name: Installer Node.js pour Cypress
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Installer les dépendances frontend
+        run: npm install
+        working-directory: ./frontend
+
+      - name: Lancer les tests Cypress (frontend)
+        run: npx cypress run --headless
+        working-directory: ./frontend
+
   docker-build:
-      runs-on: ubuntu-latest
-      needs: build-test
-      steps:
-        - name: Récupérer le code
-          uses: actions/checkout@v3
+    runs-on: ubuntu-latest
+    needs: build-test
+    steps:
+      - name: Récupérer le code
+        uses: actions/checkout@v3
       
-        - name: Build Docker image
-          run: docker build -t tamarobot-backend ./backend
-      
+      - name: Build Docker image
+        run: docker build -t tamarobot-backend ./backend
 
   trivy-scan:
     runs-on: ubuntu-latest
