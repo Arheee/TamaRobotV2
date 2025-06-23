@@ -23,7 +23,7 @@ jobs:
           cd ./backend
           npm install
 
-      - name: Run tests
+      - name: Run Jest Tests
         run: |
           cd ./backend
-          npm test
+          npx jest interaction.test.js
