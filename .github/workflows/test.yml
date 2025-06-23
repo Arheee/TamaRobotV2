@@ -1,4 +1,4 @@
-name: Tama Jest Tests
+name: ci-cd-tamarobot
 
 on:
   push:
@@ -30,4 +30,36 @@ jobs:
         run: |
           cd ./backend
           npm test
+
+# Job pour construire l'image Docker du backend
+  docker-build:
+    runs-on: ubuntu-latest  # Utilisation de l'environnement Ubuntu
+    needs: test  # Ce job dépend du job "test"
+    
+    steps:
+      # 1. Checkout le code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # 2. Construire l'image Docker
+      - name: Build Docker image
+        run: |
+          docker build -t tamarobot-backend ./backend  # Création de l'image Docker
+
+  # Job pour effectuer une analyse de sécurité avec Trivy
+  trivy-scan:
+    runs-on: ubuntu-latest  # Utilisation de l'environnement Ubuntu
+    needs: docker-build  # Ce job dépend du job "docker-build"
+
+    steps:
+      # 1. Checkout le code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # 2. Installer Trivy pour l'analyse de sécurité
+      - name: Install Trivy
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'  # Type d'analyse : système de fichiers
+          scan-ref: './backend'  # Dossier à analyser (le backend ici)
 
