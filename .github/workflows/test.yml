@@ -27,8 +27,8 @@ jobs:
       - name: Fix Permissions for Jest and Node.js
         run: |
           cd ./backend
-          sudo chmod -R 755 ./node_modules/.bin
-          sudo chmod -R 755 ./node_modules/jest
+          chmod -R 755 ./node_modules/.bin
+          chmod -R 755 ./node_modules/jest
 
       # Lancer les tests Jest (backend)
       - name: Run Jest Tests (Backend)
