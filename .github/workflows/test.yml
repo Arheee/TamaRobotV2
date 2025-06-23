@@ -26,4 +26,4 @@ jobs:
       - name: Run Jest Tests
         run: |
           cd ./backend
-          npx jest interaction.test.js
+          npm test
