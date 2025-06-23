@@ -9,20 +9,41 @@ jobs:
   build-test:
     runs-on: ubuntu-latest
     steps:
+      # Récupérer le code
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up Node.js
+      # Installer Node.js et les dépendances backend
+      - name: Setup Node.js and Install Backend Dependencies
         uses: actions/setup-node@v3
         with:
           node-version: '18'
-
-      - name: Install Dependencies
+      - name: Install Backend Dependencies
         run: |
           cd ./backend
           npm install
 
+      # Fixer les permissions pour Jest et les fichiers Node
+      - name: Fix Permissions for Jest and Node.js
+        run: |
+          cd ./backend
+          sudo chmod -R 755 ./node_modules/.bin
+          sudo chmod -R 755 ./node_modules/jest
+
+      # Lancer les tests Jest (backend)
       - name: Run Jest Tests (Backend)
         run: |
           cd ./backend
           npm test
+
+  docker-build:
+    runs-on: ubuntu-latest
+    needs: build-test
+    steps:
+      # Récupérer le code
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      # Build Docker image
+      - name: Build Docker image
+        run: docker build -t tamarobot-backend ./backend
