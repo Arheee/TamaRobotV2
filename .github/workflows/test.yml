@@ -10,11 +10,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Checkout the code
+      # Checkout the code
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # 2. Set up Node.js (version 18)
+      # Set up Node.js (version 18)
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
@@ -25,12 +25,6 @@ jobs:
         run: |
           cd ./backend
           npm install
-      # Verify Node.js and npm versions
-      - name: Verify Node.js and npm versions
-        run: |
-          node --version
-          npm --version
-
       #  Run Jest Tests
       - name: Run Jest Tests
         run: |
