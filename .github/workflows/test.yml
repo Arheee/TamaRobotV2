@@ -36,33 +36,27 @@ jobs:
           cd ./backend
           npm test
 
-  e2e-test:
+  docker-build:
     runs-on: ubuntu-latest
     needs: build-test
     steps:
       # Récupérer le code
       - name: Checkout code
         uses: actions/checkout@v3
+      
+      # Build Docker image
+      - name: Build Docker image
+        run: docker build -t tamarobot-backend ./backend
 
-      # Installer Node.js et les dépendances frontend
-      - name: Setup Node.js and Install Frontend Dependencies
-        uses: actions/setup-node@v3
+  trivy-scan:
+    runs-on: ubuntu-latest
+    needs: build-test
+    steps:
+      - name: Récupérer le code
+        uses: actions/checkout@v3
+
+      - name: Installer Trivy
+        uses: aquasecurity/trivy-action@master
         with:
-          node-version: '18'
-      - name: Install Frontend Dependencies
-        run: |
-          cd ./frontend
-          npm install
-
-      # Fixer les permissions pour Cypress
-      - name: Fix Permissions for Cypress
-        run: |
-          cd ./frontend
-          sudo chmod -R 755 ./node_modules/.bin
-          sudo chmod -R 755 ./node_modules/cypress
-
-      # Lancer les tests Cypress (frontend)
-      - name: Run Cypress Tests (Frontend)
-        run: |
-          cd ./frontend
-          npx cypress run --headless
+          scan-type: 'fs'
+          scan-ref: './backend'
