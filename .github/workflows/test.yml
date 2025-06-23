@@ -10,19 +10,35 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # 1. Checkout the code
       - name: Checkout code
         uses: actions/checkout@v3
 
+      # 2. Set up Node.js (version 18)
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
 
+      # 3. Install dependencies
       - name: Install dependencies
         run: |
           cd ./backend
           npm install
 
+      # 4. Verify Node.js and npm versions
+      - name: Verify Node.js and npm versions
+        run: |
+          node --version
+          npm --version
+
+      # 5. Verify Jest installation
+      - name: Verify Jest installation
+        run: |
+          cd ./backend
+          npm list jest
+
+      # 6. Run Jest tests
       - name: Run Jest Tests
         run: |
           cd ./backend
