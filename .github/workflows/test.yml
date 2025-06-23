@@ -23,7 +23,14 @@ jobs:
           cd ./backend
           npm install
 
-      # Lancer les tests Jest pour le backend
+      # Fixer les permissions pour Jest et les fichiers Node
+      - name: Fix Permissions for Jest
+        run: |
+          cd ./backend
+          sudo chmod -R 755 ./node_modules/.bin
+          sudo chmod -R 755 ./node_modules/jest
+
+      # Lancer les tests Jest (backend)
       - name: Run Jest Tests (Backend)
         run: |
           cd ./backend
@@ -47,7 +54,7 @@ jobs:
           cd ./frontend
           npm install
 
-      # Lancer les tests Cypress en mode headless (sans interface graphique)
+      # Lancer les tests Cypress (frontend)
       - name: Run Cypress Tests (Frontend)
         run: |
           cd ./frontend
