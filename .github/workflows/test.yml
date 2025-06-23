@@ -54,6 +54,13 @@ jobs:
           cd ./frontend
           npm install
 
+      # Fixer les permissions pour Cypress
+      - name: Fix Permissions for Cypress
+        run: |
+          cd ./frontend
+          sudo chmod -R 755 ./node_modules/.bin
+          sudo chmod -R 755 ./node_modules/cypress
+
       # Lancer les tests Cypress (frontend)
       - name: Run Cypress Tests (Frontend)
         run: |
