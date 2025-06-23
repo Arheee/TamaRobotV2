@@ -20,26 +20,18 @@ jobs:
         with:
           node-version: '18'
 
-      # 3. Install dependencies
+      #  Install dependencies
       - name: Install dependencies
         run: |
           cd ./backend
           npm install
-
-      # 4. Fix permissions for Jest and Node.js
-      - name: Fix Permissions for Jest and Node.js
-        run: |
-          cd ./backend
-          chmod -R 755 ./node_modules/.bin
-          chmod -R 755 ./node_modules/jest
-
-      # 5. Verify Node.js and npm versions
+      # Verify Node.js and npm versions
       - name: Verify Node.js and npm versions
         run: |
           node --version
           npm --version
 
-      # 6. Run Jest Tests
+      #  Run Jest Tests
       - name: Run Jest Tests
         run: |
           cd ./backend
