@@ -62,4 +62,30 @@ jobs:
         with:
           scan-type: 'fs'  # Type d'analyse : système de fichiers
           scan-ref: './backend'  # Dossier à analyser (le backend ici)
+  sonarcloud:
+    runs-on: ubuntu-latest
+    needs: test
 
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: |
+          npm install
+
+      - name: Run SonarScanner
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          npx sonar-scanner \
+            -Dsonar.projectKey=Arheee_TamaRobotV2 \
+            -Dsonar.organization=arheee \
+            -Dsonar.sources=./backend \
+            -Dsonar.host.url=https://sonarcloud.io \
+            -Dsonar.login=$SONAR_TOKEN
