@@ -1,0 +1,18 @@
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  security:
+    runs-on: ubuntu-latest
+    steps:
+      # Récupère le code source depuis le dépôt GitHub
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Analyse de sécurité avec Snyk
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/node@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}  # token Snyk sécurisé
