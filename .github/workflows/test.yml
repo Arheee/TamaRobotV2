@@ -1,5 +1,6 @@
 name: ci-cd-tamarobot
 
+# Déclenchement automatique du workflow
 on:
   push:
     branches:
@@ -10,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout the code
+      # Recupère le code source depuis Github
       - name: Checkout code
         uses: actions/checkout@v3
 
@@ -20,7 +21,7 @@ jobs:
         with:
           node-version: '18'
 
-      #  Install dependencies
+      #  Installe les dépendances backend
       - name: Install dependencies
         run: |
           cd ./backend
@@ -34,7 +35,7 @@ jobs:
 # Job pour construire l'image Docker du backend
   docker-build:
     runs-on: ubuntu-latest  # Utilisation de l'environnement Ubuntu
-    needs: test  # Ce job dépend du job "test"
+    needs: test  # Ce job dépend de la réussite du job "test"
     
     steps:
       # 1. Checkout le code
@@ -60,17 +61,19 @@ jobs:
       - name: Install Trivy
         uses: aquasecurity/trivy-action@master
         with:
-          scan-type: 'fs'  # Type d'analyse : système de fichiers
+          scan-type: 'fs'  # fs = analyse de fichiers du code source
           scan-ref: './backend'  # Dossier à analyser (le backend ici)
+
   sonarcloud:
     runs-on: ubuntu-latest
     needs: test
 
     steps:
+      #Recupere le code
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up Node.js
+      - name: Set up Node.js # Node.js requis pour exécuter sonar-scanner via npm
         uses: actions/setup-node@v3
         with:
           node-version: '18'
@@ -88,4 +91,7 @@ jobs:
             -Dsonar.organization=arheee \
             -Dsonar.sources=./backend \
             -Dsonar.host.url=https://sonarcloud.io \
-            -Dsonar.login=$SONAR_TOKEN
+            -Dsonar.login=$SONAR_TOKEN   
+        # Analyse du code sonarCloud
+        # - Vérifie bugs, code smells, duplication, couverture, sécurité
+        # - Utilise les variables d’environnement pour ne pas exposer le token
