@@ -1,9 +1,9 @@
-FROM node:24.3.0
+FROM node:24.3.0-bookworm-slim
 
 WORKDIR /app
 
-# Mise à jour de libxml2 pour corriger la faille Snyk
-RUN apt-get update && apt-get install -y libxml2 libxml2-dev
+# Correction vulnérabilité snyk et nettoyage pour image allégée
+RUN apt-get update && apt-get install -y libxml2 libxml2-dev rm -rf /var/lib/apt/lists/*
 
 COPY package*.json ./
 RUN npm install
