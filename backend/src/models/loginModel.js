@@ -13,7 +13,7 @@ async function trouverUtilisateurAvecTama(nom_utilisateur, mot_de_passe) {
 
 async function mettreAJourDerniereConnexion(id) {
   await db.execute(
-    "UPDATE utilisaateurs SET derniere_connexion = NOW() WHERE id = ?",
+    "UPDATE utilisateurs SET derniere_connexion = NOW() WHERE id = ?",
     [id]
   );
 }
