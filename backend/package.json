@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node server.js",
     "test": "jest",
-    "sonar":"sonar-scanner"
+    "sonar": "sonar-scanner"
   },
   "dependencies": {
     "cors": "^2.8.5",
@@ -15,9 +15,10 @@
     "mysql2": "^3.14.0"
   },
   "devDependencies": {
-    "jest": "29.7.0"
+    "jest": "29.7.0",
+    "supertest": "^7.1.1"
   },
-  "jest":{
-    "testEnvironment":"node"
+  "jest": {
+    "testEnvironment": "node"
   }
 }
