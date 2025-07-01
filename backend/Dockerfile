@@ -3,7 +3,7 @@ FROM node:24.3.0-bookworm-slim
 WORKDIR /app
 
 # Correction vulnérabilité snyk et nettoyage pour image allégée
-RUN apt-get update && apt-get install -y libxml2 libxml2-dev rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y libxml2 libxml2-dev &&\ rm -rf /var/lib/apt/lists/*
 
 COPY package*.json ./
 RUN npm install
