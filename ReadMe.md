@@ -20,33 +20,37 @@ Il est conçu pour être à la fois ludique et technique.
 
 ## Technologies utilisées
 1. Frontend
+
 HTML / CSS avec un style borne d’arcade rétro
 
-JavaScript Vanilla : gestion du DOM, effets visuels dynamiques, modales interactives
+. JavaScript Vanilla : gestion du DOM, effets visuels dynamiques, modales interactives
 
 2.  Backend
-Node.js avec Express pour les routes API, la logique métier et les contrôles de sécurité
+   
+. Node.js avec Express pour les routes API, la logique métier et les contrôles de sécurité
 
-3.  Bases de données
-MySQL : stockage des utilisateurs et de leur TamaRobot
+4.  Bases de données
 
-MongoDB : gestion des logs, sessions, et historique d’interactions
+. MySQL : stockage des utilisateurs et de leur TamaRobot
+
+. MongoDB : gestion des logs, sessions, et historique d’interactions
 
 4.  Outils & DevOps
-Docker & Docker Compose : conteneurisation du backend, des bases de données et des outils
 
-Traefik : reverse proxy + routage dynamique des conteneurs
+. Docker & Docker Compose : conteneurisation du backend, des bases de données et des outils
 
-SonarQube : analyse de qualité de code (bugs, duplications, couverture de test)
+. Traefik : reverse proxy 
 
-Snyk : détection automatique de vulnérabilités dans les dépendances Node.js
+. SonarQube : analyse de qualité de code (bugs, duplications, couverture de test)
+
+. Snyk : détection automatique de vulnérabilités 
 
 5.  Tests
-Jest pour les tests unitaires
+. Jest pour les tests unitaires
 
-Thunder Client (VS Code) pour les tests d’API
+. Thunder Client (VS Code) pour les tests d’API
 
-GitHub Actions : pipeline CI/CD automatisée avec tests, sécurité, qualité et build Docker
+. GitHub Actions : pipeline CI/CD automatisée avec tests, sécurité, qualité et build Docker
 
 ## Lancer le projet
 1. Cloner le repo et démarrer les services
