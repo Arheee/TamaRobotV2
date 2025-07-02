@@ -74,7 +74,7 @@ describe('Test de la route /register', () => {
     });
 
     expect(verifierUtilisateurExiste).toHaveBeenCalledWith('Chacha');
-    expect(creerUtilisateur).toHaveBeenCalledWith('Charlie', 'password');
+    expect(creerUtilisateur).toHaveBeenCalledWith('Chacha', 'password');
     expect(creerTamarobot).toHaveBeenCalledWith('TamaTest', 42);
     expect(res.statusCode).toBe(201);
     expect(res.body.message).toBe("Tamarobot créé avec succès !");
