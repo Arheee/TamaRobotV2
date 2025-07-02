@@ -46,6 +46,7 @@ describe('Test de la route /register', () => {
     expect(res.body.error).toBe("Accès refusé");
   });
 
+  //Test refuse si user existe deja
   test("refuse si l'utilisateur existe déjà", async () => {
     verifierUtilisateurExiste.mockResolvedValue(true); // Simule qu'il existe déjà
 
@@ -61,17 +62,18 @@ describe('Test de la route /register', () => {
   });
 
   test("crée un utilisateur et son tamarobot si tout est OK", async () => {
-    verifierUtilisateurExiste.mockResolvedValue(false);
+    verifierUtilisateurExiste.mockResolvedValue(false); 
+    //cette fonction, fait comme si elle avait contacté une base de données, et qu’elle avait répondu “utilisateur inexistant"
     creerUtilisateur.mockResolvedValue(42); // Simule un ID retourné
-    creerTamarobot.mockResolvedValue();
+    creerTamarobot.mockResolvedValue(); //Simule une creation
 
-    const res = await request(app).post('/register').send({
-      nom_utilisateur: 'Charlie',
+    const res = await request(app).post('/register').send({ //requete traité avec vrai routeur, fonctions simulées
+      nom_utilisateur: 'Chacha',
       mot_de_passe: 'password',
       nom_tama: 'TamaTest'
     });
 
-    expect(verifierUtilisateurExiste).toHaveBeenCalledWith('Charlie');
+    expect(verifierUtilisateurExiste).toHaveBeenCalledWith('Chacha');
     expect(creerUtilisateur).toHaveBeenCalledWith('Charlie', 'password');
     expect(creerTamarobot).toHaveBeenCalledWith('TamaTest', 42);
     expect(res.statusCode).toBe(201);
