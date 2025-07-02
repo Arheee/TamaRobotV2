@@ -12,7 +12,7 @@ services:
        - --providers.docker.exposedbydefault=false
     ports:
       - "80:80"         # accès normal
-      # - "8080:8080"     # dashboard Traefik (éviter conflit avec SonarQube en 9000) http://localhost:8080/dashboard/#/
+      # - "8080:8080"     # dashboard Traefik http://localhost:8080/dashboard/#/
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     labels:
