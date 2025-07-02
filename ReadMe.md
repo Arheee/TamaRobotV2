@@ -18,45 +18,35 @@ Il est conçu pour être à la fois ludique et technique.
 
 🛤️ Sécurité de reverse proxy via Traefik
 
-## Technologies
-1.Frontend
-HTML / CSS (style borne arcade)
+## Technologies utilisées
+1. Frontend
+HTML / CSS avec un style borne d’arcade rétro
 
-JavaScript Vanilla (DOM, effets visuels, modales)
+JavaScript Vanilla : gestion du DOM, effets visuels dynamiques, modales interactives
 
-2.Backend
+2.  Backend
+Node.js avec Express pour les routes API, la logique métier et les contrôles de sécurité
 
-Node.js + Express
+3.  Bases de données
+MySQL : stockage des utilisateurs et de leur TamaRobot
 
+MongoDB : gestion des logs, sessions, et historique d’interactions
 
-3.Bases de données
+4.  Outils & DevOps
+Docker & Docker Compose : conteneurisation du backend, des bases de données et des outils
 
-MySQL (utilisateurs, tamarobots)
+Traefik : reverse proxy + routage dynamique des conteneurs
 
-MongoDB (logs d'interactions, sessions)
+SonarQube : analyse de qualité de code (bugs, duplications, couverture de test)
 
-4.Outils et DevOps
+Snyk : détection automatique de vulnérabilités dans les dépendances Node.js
 
-Docker & Docker Compose
+5.  Tests
+Jest pour les tests unitaires
 
-Traefik
+Thunder Client (VS Code) pour les tests d’API
 
-Sonarcube
-
-Snyk
-
-5.Tests
-
-Tests manuels avec Thunder Client (CRUD utilisateurs et robots)
-
-Test end to end avec Cypress
-
-
-Historique affiché par session via modale
-
-Authentification testée avec bcrypt (hashage des mots de passe)
-
-Prévu : ajout de tests automatisés avec Jest
+GitHub Actions : pipeline CI/CD automatisée avec tests, sécurité, qualité et build Docker
 
 ## Lancer le projet
 1. Cloner le repo et démarrer les services
