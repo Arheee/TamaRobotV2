@@ -39,11 +39,11 @@ MongoDB (logs d'interactions, sessions)
 
 Docker & Docker Compose
 
-Live Server pour le frontend
-
 Traefik
 
 Sonarcube
+
+Snyk
 
 5.Tests
 
