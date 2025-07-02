@@ -64,6 +64,7 @@ jobs:
         # Analyse du code sonarCloud
         # - Vérifie bugs, code smells, duplication, couverture, sécurité
         # - Utilise les variables d’environnement pour ne pas exposer le token
+        
   snyk-security:
     runs-on: ubuntu-latest
     
@@ -92,20 +93,3 @@ jobs:
       - name: Build Docker image
         run: |
           docker build -t tamarobot-backend ./backend  
-
-  # Job pour effectuer une analyse de sécurité avec Trivy
-  # trivy-scan:
-  #   runs-on: ubuntu-latest  # Utilisation de l'environnement Ubuntu
-  #   needs: docker-build  # Ce job dépend du job "docker-build"
-
-  #   steps:
-  #     # 1. Checkout le code
-  #     - name: Checkout code
-  #       uses: actions/checkout@v3
-
-  #     # 2. Installer Trivy pour l'analyse de sécurité images docker
-  #     - name: Install Trivy
-  #       uses: aquasecurity/trivy-action@master
-  #       with:
-  #         scan-type: 'fs'  # fs = analyse de fichiers du code source
-  #         scan-ref: './backend'  # Dossier à analyser (le backend ici)
